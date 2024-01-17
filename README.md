@@ -21,10 +21,21 @@ Let's focus on the below for the design side of things:
 1. Any other APIs and tools you can think of (no need to implement)
 1. Infrastructure - This is a global system with customers across the world. Let's discuss more about setting up the infra, how to share data across different regions, how to solve for region-specific data for issues like GDPR, how to replicate some tables out of a region to a central cluster for analytics, etc. This is just a textual answer with maybe some design diagrams
 
+## Database Schema
+### Entities
+1. User
+  1. id - Primary Key
+  1. name
+1. Money ledger
+  
+1. Token ledge
 ## Checklist
 - [ ] User can only win 5 tokens a day
 - [ ] Every hour, tokens won by users are converted to currency using third party API
 - [ ] Fee is charged for every conversion and is paid by Dreamland
+
+## Architecture
+![Architecture](Architecture.png)
 
 ## Edge Cases
 ## Useful tools
