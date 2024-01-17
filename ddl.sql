@@ -26,11 +26,13 @@ CREATE TABLE "ledgers" (
     journal_id NOT NULL INT REFERENCES journal(id)
 );
 
-CREATE TABLE "exchange_rates" (
-    id SERIAL PRIMARY KEY,
-    journal_id NOT NULL INT REFERENCES journal(id),
+CREATE TABLE "exchange" (
+    journal_id PRIMARY KEY NOT NULL INT REFERENCES journal(id),
     rate NUMERIC(18, 6) NOT NULL,
     timestamp TIMESTAMP NOT NULL,
+    --- 0 - INITIATED, 1 - QUEUED, 2 - RUNNING, 3 - SUCCESS, 4 - FAILURE, 5 - ERROR
+    status INTEGER NOT NULL DEFAULT 0 CHECK(status >= 0 AND status <= 5),
+    remarks TEXT, -- In case of error/failure, adding remarks here for info
     created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -134,7 +136,7 @@ WHERE
 --- Automated Conversion every hour from tokens to USD
 DO $$
 BEGIN
-  -- Add a journal entry for reference
+  -- Assumption here is that there will be an entry in journal already to initiate this action.
   -- Add two entries in Token ledger for user and owner
   -- Add two entries in Fiat ledger for user and owner
   -- Add one entry in Fiat ledger for owner to add fees
