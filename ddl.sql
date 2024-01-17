@@ -96,6 +96,7 @@ DO $$
     user_last_balance INT DEFAULT 0; 
     owner_last_balance INT DEFAULT 0; 
   BEGIN
+    validate_limits(); -- raise exception if total number of tokens won today are more than 5
     SELECT to_balance 
     FROM ledgers 
     WHERE
